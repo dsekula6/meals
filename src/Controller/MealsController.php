@@ -183,7 +183,7 @@ class MealsController extends AbstractController
                     'slug' => $tag->getSlug()
                 ];
                 }
-                $mealData['tags'] = $ingredientsData;
+                $mealData['tags'] = $tagsData;
             }
 
     
