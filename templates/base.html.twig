@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>{% block title %}Welcome!{% endblock %}</title>
+        <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text></svg>">
+        {% block stylesheets %}
+        <style>
+            body {
+                font-family: "Arial", sans-serif;
+            }
+            h1, h2 {
+                text-align: center;
+            }
+            .meals-container {
+                display: flex;
+                flex-wrap: wrap;
+                justify-content: space-evenly;
+                margin: -10px;
+            }
+            
+            .meal {
+                flex-basis: calc(30%);
+                margin: 10px;
+                padding: 10px;
+                border: 1px solid #ccc;
+                border-radius: 5px;
+                background-color: #f8f8f8;
+                box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            }
+            
+            @media (max-width: 992px) {
+                .meal {
+                    flex-basis: calc(50% - 20px);
+                }
+            }
+            
+            @media (max-width: 768px) {
+                .meal {
+                    flex-basis: 100%;
+                }
+            }
+            
+            h2, h3, p {
+                
+                color: #333;
+                margin: 0;
+            }
+            
+            h2 {
+                font-size: 20px;
+                font-weight: bold;
+                margin-bottom: 10px;
+            }
+            
+            h3 {
+                font-size: 16px;
+                font-weight: bold;
+                margin-top: 15px;
+                margin-bottom: 5px;
+            }
+            
+            p {
+                font-size: 14px;
+                line-height: 1.4;
+                margin-bottom: 10px;
+            }
+            
+            
+        </style>
+        {% endblock %}
+
+        {% block javascripts %}
+        {% endblock %}
+    </head>
+    <body>
+        {% block body %}{% endblock %}
+    </body>
+</html>

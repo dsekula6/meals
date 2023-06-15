@@ -1,0 +1,94 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Showing all meals!{% endblock %}
+
+{% block body %}
+
+<h1>MEALS</h1>
+{% if total_meals == 0 %}
+    <div>
+    <h1>no meals available</h1>    
+    </div>
+{% endif %}
+
+<div class="meals-container">
+    {% for meal in meals %}
+        <div class="meal">
+            <h2>{{meal.id}} {{meal.title}}</h2>
+            <h3>Ingredients</h3>
+            {% for ingredient in meal.ingredients %}
+                <p>{{ingredient.title}}</p>
+            {% endfor %}
+            <h3>Category</h3>
+            <p>{{meal.category.title}}</p>
+            <h3>Description</h3>
+            <p>{{meal.description}}</p>
+            <h3>Tags</h3>
+            <p>
+                {% for tag in meal.tags %}
+                    {{tag.title}}
+                {% endfor %}
+            </p>
+        </div>
+    {% endfor %}
+    
+</div>
+<div>
+    <span>category</span>
+    <select id="category" name="category">
+        <option value="0">All</option>
+        {% for cat in categories %}
+            <option value="{{ cat.id }}" {% if cat.id == category %}selected{% endif %}>{{ cat.title }}</option>
+        {% endfor %}
+    </select><br>
+    <span>tags</span>
+    <input type="text" id="tags" value="{{ tags }}">
+    <a id="refresh" href="{{ path('meals', {'page': page, 'per_page': per_page, 'category': category, 'tags': tags, 'with': with, 'lang': lang}) }}">refresh</a>
+</div>
+<br>
+{# Pagination links #}
+<div class="pagination">
+    {% if page > 1 %}
+        <a href="{{ path('meals', {'page': page - 1, 'per_page': per_page, 'category': category, 'tags': tags, 'with': with, 'lang': lang}) }}">Previous</a>
+    {% endif %}
+
+    {% for p in 1..total_pages %}
+        {% if p == page %}
+            <span class="current-page">{{ p }}</span>
+        {% else %}
+            <a href="{{ path('meals', {'page': p, 'per_page': per_page, 'category': category, 'tags': tags, 'with': with, 'lang': lang}) }}">{{ p }}</a>
+        {% endif %}
+    {% endfor %}
+
+    {% if page < total_pages %}
+        <a href="{{ path('meals', {'page': page + 1, 'per_page': per_page, 'category': category, 'tags': tags, 'with': with, 'lang': lang}) }}">Next</a>
+    {% endif %}
+</div>
+<div>
+<p>items shown per page: {{per_page}} </p>
+<p>total pages: {{total_pages}} </p>
+<p>total meals: {{total_meals}} </p>
+</div>
+<script>
+    document.getElementById('category').addEventListener('change', function() {
+        let selectedCategory = this.value;
+        let paginationLinks = document.getElementById('refresh');
+
+        let href = paginationLinks.getAttribute('href');
+        href = href.replace(/category=\d+/, 'category=' + selectedCategory);
+        paginationLinks.setAttribute('href', href);
+
+    });
+    document.getElementById('tags').addEventListener('input', function() {
+        let selectedCategory = this.value;
+        let paginationLinks = document.getElementById('refresh');
+
+        let href = paginationLinks.getAttribute('href');
+        href = href.replace(/tags=[^&]+/, 'tags=' + document.getElementById('tags').value);
+        paginationLinks.setAttribute('href', href);
+
+    });
+</script>
+
+
+{% endblock %}
