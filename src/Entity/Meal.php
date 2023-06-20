@@ -3,12 +3,15 @@
 namespace App\Entity;
 
 use App\Repository\MealRepository;
+use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
 
 #[ORM\Entity(repositoryClass: MealRepository::class)]
+#[Gedmo\SoftDeleteable(fieldName: "deletedAt")]
 class Meal
 {
     #[ORM\Id]
@@ -30,6 +33,9 @@ class Meal
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $description = null;
+
+    #[ORM\Column(type: "datetime", nullable: true)]
+    private $deletedAt;
 
     #[ORM\OneToMany(mappedBy: 'meal', targetEntity: MealTranslation::class, orphanRemoval: true)]
     private Collection $translations;
@@ -114,6 +120,17 @@ class Meal
     public function setTitle(string $title): static
     {
         $this->title = $title;
+
+        return $this;
+    }
+    public function getDeletedAt(): ?DateTime
+    {
+        return $this->deletedAt;
+    }
+
+    public function setDeletedAt(DateTime $date): static
+    {
+        $this->deletedAt = $date;
 
         return $this;
     }
