@@ -19,7 +19,6 @@ class CategoryTranslation
     #[ORM\Column(length: 255)]
     private ?string $title = null;
 
-
     #[ORM\ManyToOne(inversedBy: 'translations')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Category $category = null;
@@ -52,7 +51,6 @@ class CategoryTranslation
 
         return $this;
     }
-
 
     public function getCategory(): ?Category
     {

@@ -19,12 +19,9 @@ class IngredientTranslation
     #[ORM\Column(length: 255)]
     private ?string $title = null;
 
-
     #[ORM\ManyToOne(inversedBy: 'translations')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Ingredient $ingredient = null;
-
-
 
     public function getId(): ?int
     {
@@ -55,8 +52,6 @@ class IngredientTranslation
         return $this;
     }
 
-
-
     public function getIngredient(): ?Ingredient
     {
         return $this->ingredient;
@@ -68,6 +63,4 @@ class IngredientTranslation
 
         return $this;
     }
-
-
 }

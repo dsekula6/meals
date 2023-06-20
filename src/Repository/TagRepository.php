@@ -3,9 +3,9 @@
 namespace App\Repository;
 
 use App\Entity\Tag;
+use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\NoResultException;
 use Doctrine\Persistence\ManagerRegistry;
-use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 
 /**
  * @extends ServiceEntityRepository<Tag>
@@ -39,6 +39,7 @@ class TagRepository extends ServiceEntityRepository
             $this->getEntityManager()->flush();
         }
     }
+
     public function getRandomTag()
     {
         $queryBuilder = $this->createQueryBuilder('i');
@@ -46,7 +47,7 @@ class TagRepository extends ServiceEntityRepository
         $queryBuilder
             ->addSelect('rand() as HIDDEN rand')
             ->orderBy('rand');
-    
+
         try {
             return $queryBuilder
                 ->setMaxResults(1)
@@ -57,28 +58,28 @@ class TagRepository extends ServiceEntityRepository
         }
     }
 
-//    /**
-//     * @return Tag[] Returns an array of Tag objects
-//     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('t')
-//            ->andWhere('t.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('t.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
+    //    /**
+    //     * @return Tag[] Returns an array of Tag objects
+    //     */
+    //    public function findByExampleField($value): array
+    //    {
+    //        return $this->createQueryBuilder('t')
+    //            ->andWhere('t.exampleField = :val')
+    //            ->setParameter('val', $value)
+    //            ->orderBy('t.id', 'ASC')
+    //            ->setMaxResults(10)
+    //            ->getQuery()
+    //            ->getResult()
+    //        ;
+    //    }
 
-//    public function findOneBySomeField($value): ?Tag
-//    {
-//        return $this->createQueryBuilder('t')
-//            ->andWhere('t.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->getQuery()
-//            ->getOneOrNullResult()
-//        ;
-//    }
+    //    public function findOneBySomeField($value): ?Tag
+    //    {
+    //        return $this->createQueryBuilder('t')
+    //            ->andWhere('t.exampleField = :val')
+    //            ->setParameter('val', $value)
+    //            ->getQuery()
+    //            ->getOneOrNullResult()
+    //        ;
+    //    }
 }

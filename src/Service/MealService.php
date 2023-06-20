@@ -1,11 +1,11 @@
 <?php
+
 // src/Service/MealService.php
 
 namespace App\Service;
 
-use App\Repository\MealRepository;
 use App\Repository\CategoryRepository;
-use DateTime;
+use App\Repository\MealRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
@@ -41,25 +41,22 @@ class MealService
         if (!empty($tagIds)) {
             foreach ($tagIds as $index => $tagId) {
                 $totalMeals
-                    ->join('m.tags', 't' . $index)
-                    ->andWhere('t' . $index . '.id = :tag' . $index)
-                    ->setParameter('tag' . $index, $tagId);
+                    ->join('m.tags', 't'.$index)
+                    ->andWhere('t'.$index.'.id = :tag'.$index)
+                    ->setParameter('tag'.$index, $tagId);
             }
         }
-        if ($diff_time>0) {
+        if ($diff_time > 0) {
             $totalMeals
                 ->andWhere($totalMeals->expr()->orX(
                     $totalMeals->expr()->isNull('m.deletedAt'),
                     $totalMeals->expr()->gt('m.deletedAt', ':date')
                 ))
                 ->setParameter('date', date('Y-m-d', $diff_time));
-        }
-        else {
+        } else {
             $totalMeals
                 ->andWhere($totalMeals->expr()->isNull('m.deletedAt'));
         }
-        
-
 
         return $totalMeals->getQuery()->getSingleScalarResult();
     }
@@ -84,20 +81,19 @@ class MealService
         if (!empty($tagIds)) {
             foreach ($tagIds as $index => $tagId) {
                 $query
-                    ->join('m.tags', 't' . $index)
-                    ->andWhere('t' . $index . '.id = :tag' . $index)
-                    ->setParameter('tag' . $index, $tagId);
+                    ->join('m.tags', 't'.$index)
+                    ->andWhere('t'.$index.'.id = :tag'.$index)
+                    ->setParameter('tag'.$index, $tagId);
             }
         }
-        if ($diff_time>0) {
+        if ($diff_time > 0) {
             $query
                 ->andWhere($query->expr()->orX(
                     $query->expr()->isNull('m.deletedAt'),
                     $query->expr()->gt('m.deletedAt', ':date')
                 ))
                 ->setParameter('date', date('Y-m-d', $diff_time));
-        }
-        else {
+        } else {
             $query
                 ->andWhere($query->expr()->isNull('m.deletedAt'));
         }
@@ -107,7 +103,7 @@ class MealService
 
         $meals = $query->getQuery()->getResult();
 
-        if ($lang === 'hr') {
+        if ('hr' === $lang) {
             foreach ($meals as $meal) {
                 $category = $meal->getCategory();
                 $tags = $meal->getTags();
@@ -149,12 +145,10 @@ class MealService
             ];
 
             $status = 'created';
-            if ($meal->getDeletedAt()!=null) {
+            if (null != $meal->getDeletedAt()) {
                 $status = 'deleted';
             }
             $mealData['status'] = $status;
-
-            
 
             if (in_array('ingredients', $withArray)) {
                 $ingredients = $meal->getIngredients();
@@ -163,7 +157,7 @@ class MealService
                     $ingredientsData[] = [
                         'id' => $ingredient->getId(),
                         'title' => $ingredient->getTitle(),
-                        'slug' => $ingredient->getSlug()
+                        'slug' => $ingredient->getSlug(),
                     ];
                 }
                 $mealData['ingredients'] = $ingredientsData;
@@ -174,7 +168,7 @@ class MealService
                 $mealData['category'] = [
                     'id' => $category->getId(),
                     'title' => $category->getTitle(),
-                    'slug' => $category->getSlug()
+                    'slug' => $category->getSlug(),
                 ];
             }
 
@@ -185,7 +179,7 @@ class MealService
                     $tagsData[] = [
                         'id' => $tag->getId(),
                         'title' => $tag->getTitle(),
-                        'slug' => $tag->getSlug()
+                        'slug' => $tag->getSlug(),
                     ];
                 }
                 $mealData['tags'] = $tagsData;
@@ -203,5 +197,3 @@ class MealService
         return $jsonResponse;
     }
 }
-
-?>

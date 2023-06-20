@@ -23,8 +23,6 @@ class TagTranslation
     #[ORM\JoinColumn(nullable: false)]
     private ?Tag $tag = null;
 
-
-
     public function getId(): ?int
     {
         return $this->id;
@@ -65,6 +63,4 @@ class TagTranslation
 
         return $this;
     }
-
-
 }

@@ -30,7 +30,6 @@ class Ingredient
         $this->translations = new ArrayCollection();
     }
 
-
     public function getId(): ?int
     {
         return $this->id;
@@ -89,6 +88,4 @@ class Ingredient
 
         return $this;
     }
-
-
 }
